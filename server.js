@@ -14,6 +14,7 @@
  * initializing the port No -3
  * Middleware to parse data from the frontend to the body of the request- 4
  * calling the route that performs the model and controller in the MVC -5
+ * starting up the database server -6
  
  */
 
@@ -26,6 +27,7 @@ const {port} = require("./config");    // -3
 
 // Invoking All routes  -5
 require('./routes/api')(app);
+require('./startUps')  // -6
 
 
 
