@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      contactUs.belongsTo(models.user, { foreignKey: "userId" });
+      contactUs.belongsTo(models.organization, { foreignKey: "orgId" });
     }
   };
   contactUs.init({
