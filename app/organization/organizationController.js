@@ -34,13 +34,13 @@ exports.createOrganization = async (req, res, next) => {
 
     try {  //-2
     const data = req.body;
-    console.log(data)
-    const id = req.headers['id'];
-    const orgPayload = await OrganizationService.createOrganization(data, id) //-3
+    // const id = req.query['id'];
+    // console.log(id)
+    const orgPayload = await OrganizationService.createOrganization(data) //-3
     return successResponse(res, orgPayload, 200);
 
     }catch(err) {
-    logger.log("error", err)
+    console.log("error", err)
     return errorResponse(res, "An exception has occurred ", 500);
     }
     

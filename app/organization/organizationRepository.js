@@ -1,6 +1,7 @@
 "use strict";
-
-const organizationModel = require('../../models/organization').organization
+const { Sequelize } = require('sequelize'); 
+const connection = require('../../startUps/database')
+const organizationModel = require('../../models/organization')(  connection,Sequelize)
 const Repository = require('../util/Repository');
 
 

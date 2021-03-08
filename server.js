@@ -12,26 +12,30 @@
  * server setup-1
  * installing libraries: - 2
  * initializing the port No -3
- * Middleware to parse data from the frontend to the body of the request- 4
- * calling the route that performs the model and controller in the MVC -5
- * starting up the database server -6
+ * library to handle 404 errors -4
+ * Middleware to parse data from the frontend to the body of the request- 5
+ * calling the route that performs the model and controller in the MVC -6
+ * allow for cross origin from the browser over http-7
+ * starting up the database server -8
  
  */
 
  
 
 //importing / importing libraries-2
+const { required } = require('@hapi/joi');
 const express = require('express');
 const app = express();
-const {port} = require("./config");    // -3
-
-// Invoking All routes  -5
-require('./routes/api')(app);
-require('./startUps')  // -6
-
+const {port} = require("./config");  // -3
+const createError = require('http-errors');  // -4
+require('express-async-errors');
+const cors = require('cors');  //-7
 
 
-//middleware to parse data in the body of the request  -4
+
+
+//middleware to parse data in the body of the request  -5
+app.use(cors());   //-7
 app.use(express.json());   //4
 app.use(express.urlencoded({extended: false}));
 
@@ -39,8 +43,19 @@ app.use(express.urlencoded({extended: false}));
 
 
 
+// catch 404 and forward to error handler
+// app.use(function (req, res, next) {
+//     next(createError(404));
+//   });
 
 
+//error handler
+// app.use(errorHandler);
+
+
+// Invoking All routes  -6
+require('./routes/api')(app);
+require('./startUps')  // -8
 
 
 

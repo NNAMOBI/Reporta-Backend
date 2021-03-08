@@ -29,6 +29,10 @@ class Repository {
         return this.Model.create(payload)
     }
 
+    findOrCreate(condition, defaults) {
+        return this.Model.findOrCreate({where: condition, defaults});
+    }
+
     findAll(condition) {
         return this.Model.findAll({where: condition});
     }

@@ -12,6 +12,7 @@
 /**
  * * importing libraries: - 1
  *  function to validate the organization  -2
+ * function to handle errors  -3
  *  
  */
 
@@ -19,7 +20,7 @@
 
  //-1
 const Joi = require('@hapi/joi');  //library to handle the validation for the organization
-
+const {errorResponse, successResponse} = require('../util/helper');  //-3
 
 //-2
 exports.organizationInput = async (req, res, next) => {
@@ -30,6 +31,7 @@ exports.organizationInput = async (req, res, next) => {
         companyName: Joi.string().required(),
         email: Joi.string().email().max(256).required(),
         password: Joi.string().required(),
+        confirmPassword: Joi.string().required(),
         phoneNo: Joi.string().required(),
         address: Joi.string().required()
     });

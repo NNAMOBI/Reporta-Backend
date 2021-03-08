@@ -19,7 +19,7 @@ const organizationRoute = require('./organization')
 
 //export the route
 module.exports = (app) => {
-    app.use("/api/users", userRoute);
-    app.use("/api/organization", organizationRoute);
+    app.use("/api/users", userRoute);   //-1 
+    app.use("/api/organization", organizationRoute); //-2
     
 }
