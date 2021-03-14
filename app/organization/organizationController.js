@@ -45,3 +45,48 @@ exports.createOrganization = async (req, res, next) => {
     }
     
 }
+
+
+
+
+//-4
+exports.orgAuth = async(req, res, next) => {
+    try {
+    const data = req.body;
+    const token = req.query.token ;   //token
+    if(!token){
+      return errorResponse(res, "No token ", 401);
+    }
+    const userHasRecord = await OrganizationService.authenticateUser(token, data) //call service handler to auth user
+    if(!userHasRecord){
+        return errorResponse(res, "credential does not exist", 401);
+    }else {
+       return successResponse(res, userHasRecord, 200)
+    }
+        
+        
+    }catch(err){
+       console.log('err', err)
+       return errorResponse(res, "You cannot update at this time", 500);
+    }
+    
+}
+
+
+exports.login = async (req, res, next)=> {
+    try {
+        
+          const userHasRecord = await OrganizationService.userLogin(req.body) //call service handler to auth user
+          if(!userHasRecord){
+              return errorResponse(res, "credential does not exist", 401);
+          }else {
+             return successResponse(res, userHasRecord, 200)
+          }
+
+    }catch(error){
+        //    console.error(error)
+           res.json("you are not permitted")
+         }
+   
+    
+ }

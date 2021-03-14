@@ -32,8 +32,10 @@ const {
 const randomString = require('../../app/util/helper');
 const hashString = require('../../app/util/helper');
 const usersPassword = require('../../app/util/helper');
-const jwt = require('../../app/util/helper');
-const mailer = require('../../app/services/emailService');
+const jwt = require('../../app/util/helper');  
+const mailer = require('../../app/services/emailService');  //send mail function
+const UserRepository = require('../users/userRepository'); //sub class model
+const bcrypt = require('bcrypt');  // library to compare hashed password with the password in the input
 
 
 
@@ -68,7 +70,7 @@ exports.createOrganization = async (data) => {
 
         // create accessToken  with JsonWebToken for password update. 
         const accessToken = await jwt.sign({
-            id: organizationRecord.id,
+            id:  organizationRecord.id,
             email: organizationRecord.email,
         }, process.env.Secret, {
             expiresIn: '24h'
@@ -77,9 +79,9 @@ exports.createOrganization = async (data) => {
         await mailer({     //-7
             from: process.env.EMAIL_USERNAME,  //environment variables
             to: organizationRecord.email,
-            subject: 'change password',
-            text: `your default password is ${organizationRecord.password}, update the password when you click on the link below!
-            http://localhost:5000/api/authUser/token?token=${accessToken}`
+            subject: 'Change Your Password',
+            text: `Your default password is ${organizationRecord.password}, update the password when you click on the link below!
+            http://localhost:8080/reportaApp/ReportaApp/change.html?token=${accessToken}`
         });
         return {
             organizationRecord,
@@ -91,5 +93,74 @@ exports.createOrganization = async (data) => {
         return err
     }
 
+
+}
+
+
+//-10
+exports.authenticateUser = async (token, data) => {
+    try {
+        if(data.password !== data.confirmPassword) //confirm if the user password match
+            return (`Oops ! Your password does not match please try again.`); 
+            let hashedPassword = await hashString.hashPassword(data.password);  //hash the user password
+         let payload = {    //reassign new password
+             password: hashedPassword
+         }
+        const decoded = await jwt.verify(token, process.env.Secret) // decode the token in the querystring
+        if(!decoded){
+            return ('Failed to authenticate token! Please see your system administrator')
+        }else {
+            const userRecord = await OrganizationRepository.find(decoded.id);
+            console.log("->" ,userRecord.id, typeof userRecord.id) // check if after decoding the user exist in the database match
+            if(!userRecord)
+            return ('your credentials does not exist, Please see your system administrator' );
+            if(userRecord.email !== decoded.email) {
+                return ('your credentials does not exist, Please see your system administrator' );
+            }else {
+                const IsUpdatedPassword = await OrganizationRepository.updateById(payload , userRecord.id); //update the user password by changed password
+                console.log(IsUpdatedPassword);//create the user in the db
+                ; //update the user to an admin status by value 1
+                console.log( IsUpdatedPassword);
+                return ('Your password matched and change is successful, Click on the admin to log in to view you dashboard');
+                // ('Your password matched and change is successful, Click on the admin to log in to view you dashboard');
+            }
+        }    
+    }catch(err){
+        console.log("error", err)
+        return err
+    }
+  
+}
+
+
+exports.userLogin = async(data)=> {
+     try {
+        let {
+            email,
+            password,
+            confirmPassword
+            } = data
+
+       const match = await usersPassword.comparePassword(password, confirmPassword)  //-3
+       if(!match)
+       return ('Oops! password  does not match, Please input your password');
+        const userRecord = await OrganizationRepository.findOne({email: email});//find email if its exist in the database
+        if(!userRecord)
+      return ('your credentials does not exist, Please see your system administrator' );
+      if (!bcrypt.compareSync(password, userRecord.password))  //unhash the password and compare with the password from the front end
+      return("your credentials does not exist, Please see your system Administrator")
+      const accessToken = await jwt.sign({    //if user type is 1 (admin) sign a token
+        id: userRecord.id,
+        email: userRecord.email,
+    }, process.env.Secret, {
+        expiresIn: '24h'
+    })
+      return ({accessToken})
+
+     }catch(err){
+        console.error(err)
+      }
+   
+    
 
 }

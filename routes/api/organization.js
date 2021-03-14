@@ -16,7 +16,8 @@
  * @returns {Promise<void>}
  */
 
- //create organization route
+ //create organization route -1
+ //create route to login -2
 
 
 
@@ -24,13 +25,17 @@
 const router = require('express').Router();
 const organizationController = require('../../app/organization/organizationController');
 const organizationValidator = require('../../app/organization/organizationValidation')
+// const auth = require('../../app/middleware/auth')
 
 
 
 
 //create organization  
-router.post('/', organizationValidator.organizationInput,
+router.post('/register', organizationValidator.organizationInput,
                                      organizationController.createOrganization)
+                                   
+router.post('/', organizationController.orgAuth);   //authenticate user with token to change password
+router.post('/login',  organizationController.login);  //-2
 
 
 

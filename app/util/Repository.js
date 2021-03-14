@@ -52,6 +52,10 @@ class Repository {
     update(condition, update) {
         return this.Model.update(update, {where: condition})
     }
+
+    updateById(payload, id) {
+        return this.Model.update(payload, {where: {id: id}});
+        };
     async paginate(condition = {}, page, limit, orderBy, order) {
         console.log("Con",condition);
         const offset = limit * (page - 1);
