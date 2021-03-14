@@ -29,6 +29,10 @@ class Repository {
         return this.Model.create(payload)
     }
 
+    findOrCreate(condition, defaults) {
+        return this.Model.findOrCreate({where: condition, defaults});
+    }
+
     findAll(condition) {
         return this.Model.findAll({where: condition});
     }
@@ -48,6 +52,10 @@ class Repository {
     update(condition, update) {
         return this.Model.update(update, {where: condition})
     }
+
+    updateById(payload, id) {
+        return this.Model.update(payload, {where: {id: id}});
+        };
     async paginate(condition = {}, page, limit, orderBy, order) {
         console.log("Con",condition);
         const offset = limit * (page - 1);
