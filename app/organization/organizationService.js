@@ -81,7 +81,7 @@ exports.createOrganization = async (data) => {
             to: organizationRecord.email,
             subject: 'Change Your Password',
             text: `Your default password is ${organizationRecord.password}, update the password when you click on the link below!
-            http://localhost:8080/reportaApp/ReportaApp/change.html?token=${accessToken}`
+            <a>http://localhost:8080/reportaApp/ReportaApp/change.html?token=${accessToken}</a>`
         });
         return {
             organizationRecord,
@@ -155,12 +155,41 @@ exports.userLogin = async(data)=> {
     }, process.env.Secret, {
         expiresIn: '24h'
     })
-      return ({accessToken})
+      return ({
+          accessToken,
+          companyName: userRecord.companyName,
+          email: userRecord.email
+        })
 
      }catch(err){
         console.error(err)
       }
    
     
+
+}
+
+exports.userAuth = async (token) => {
+    try  {
+        const decoded = await jwt.verify(token, process.env.Secret) // decode the token in the querystring
+        if(!decoded){
+            return ('Failed to authenticate token! Please see your system administrator')
+        }else {
+            const userRecord = await OrganizationRepository.find(decoded.id);
+            console.log("->" ,userRecord.id, typeof userRecord.id) // check if after decoding the user exist in the database match
+            if(!userRecord)
+            return ('your credentials does not exist, Please see your system administrator' );
+            if(userRecord.email !== decoded.email) 
+                return ('your credentials does not exist, Please see your system administrator' );
+                return ({
+                    companyName: userRecord.companyName,
+                    email: userRecord.email
+                  })
+                }
+    }catch(err){
+        console.error(err)
+      }
+   
+
 
 }

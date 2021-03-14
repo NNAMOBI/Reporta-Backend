@@ -90,3 +90,24 @@ exports.login = async (req, res, next)=> {
    
     
  }
+
+
+ exports.authorize = async(req, res, next)=> {
+     console.log(req)
+      const token = req.query.token
+      console.log("->", token)
+     try {
+        const userHasRecord = await OrganizationService.userAuth(token) //call service handler to auth user
+        if(!userHasRecord){
+            return errorResponse(res, "credential does not exist", 401);
+        }else {
+           return successResponse(res, userHasRecord, 200)
+        }
+         
+     }catch(error){
+        //    console.error(error)
+           res.json("you are not permitted")
+         }
+
+
+ }
