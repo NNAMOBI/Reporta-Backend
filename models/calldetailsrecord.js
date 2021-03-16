@@ -29,19 +29,19 @@ module.exports = (sequelize, DataTypes) => {
     //2
     static associate(models) {
       // define association here
-      callDetailsRecord.belongsTo(models.Organization, { foreignKey: "orgId" });
+      callDetailsRecord.belongsTo(models.organization, { foreignKey: "orgId" });
       callDetailsRecord.belongsTo(models.user, { foreignKey: "userId" });
     }
   };
   //-4
   callDetailsRecord.init({
-    time_start: DataTypes.STRING,
-    time_Answered: DataTypes.STRING,
+    time_start: DataTypes.DATE,
+    time_Answered: DataTypes.DATE,
     from_no: DataTypes.STRING,
     to_no: DataTypes.STRING,
-    duration: DataTypes.STRING,
-    reason_terminated: DataTypes.STRING,
-    date: DataTypes.STRING
+    duration: DataTypes.DATE,
+    reason_terminated: DataTypes.TEXT,
+    date: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'callDetailsRecord',
