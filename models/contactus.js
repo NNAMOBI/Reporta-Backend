@@ -35,7 +35,8 @@ module.exports = (sequelize, DataTypes) => {
     companyName: DataTypes.STRING,
     email: DataTypes.STRING,
     phoneNo: DataTypes.STRING,
-    query: DataTypes.STRING
+    query: DataTypes.STRING,
+    orgId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'contactUs',
