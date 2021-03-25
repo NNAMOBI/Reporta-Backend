@@ -25,7 +25,8 @@
 const router = require('express').Router();
 // const { or } = require('sequelize/types/lib/operators');
 const organizationController = require('../../app/organization/organizationController');
-const organizationValidator = require('../../app/organization/organizationValidation')
+const organizationValidator = require('../../app/organization/organizationValidation');
+const { route } = require('./users');
 // const auth = require('../../app/middleware/auth')
 
 
@@ -38,7 +39,7 @@ router.post('/register', organizationValidator.organizationInput,
 router.post('/', organizationController.orgAuth);   //authenticate user with token to change password
 router.post('/login',  organizationController.login);  //-2
 router.get('/auth/token', organizationController.authorize); // authorize user to view dashboard
-
+router.post("/user/register", organizationController.createUsers);//route to create users
 
 
 

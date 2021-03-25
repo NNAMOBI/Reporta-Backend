@@ -38,14 +38,6 @@ module.exports = {
       query: {
         type: Sequelize.STRING
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
       orgId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -57,6 +49,14 @@ module.exports = {
         }
         // field: 'org_id'
 
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },

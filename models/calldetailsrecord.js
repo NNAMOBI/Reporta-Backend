@@ -37,11 +37,14 @@ module.exports = (sequelize, DataTypes) => {
   callDetailsRecord.init({
     time_start: DataTypes.DATE,
     time_Answered: DataTypes.DATE,
+    time_End: DataTypes.DATE,
     from_no: DataTypes.STRING,
     to_no: DataTypes.STRING,
     duration: DataTypes.DATE,
     reason_terminated: DataTypes.TEXT,
-    date: DataTypes.DATE
+    date: DataTypes.DATE,
+    orgId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'callDetailsRecord',

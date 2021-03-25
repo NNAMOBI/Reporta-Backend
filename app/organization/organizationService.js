@@ -48,14 +48,11 @@ exports.createOrganization = async (data) => {
         companyName,
         email,
         password,
-        confirmPassword,
         phoneNo,
         address,
         } = data
 
-       const match = usersPassword.comparePassword(password, confirmPassword)  //-3
-       if(!match)
-       return ('Oops! password  does not match, Please input your password again');
+       
         let randomChar = await randomString.generateString(); //-4
         let hashedPassword = await hashString.hashPassword(randomChar)  //5
         password = hashedPassword    // assign hashed password to the new matched password
@@ -117,7 +114,8 @@ exports.authenticateUser = async (token, data) => {
             if(userRecord.email !== decoded.email) {
                 return ('your credentials does not exist, Please see your system administrator' );
             }else {
-                const IsUpdatedPassword = await OrganizationRepository.updateById(payload , userRecord.id); //update the user password by changed password
+            
+                const IsUpdatedPassword = await OrganizationRepository.updateById({password: userRecord.password}, userRecord.id); //update the user password by changed password
                 console.log(IsUpdatedPassword);//create the user in the db
                 ; //update the user to an admin status by value 1
                 console.log( IsUpdatedPassword);
@@ -140,7 +138,7 @@ exports.userLogin = async(data)=> {
             password,
             confirmPassword
             } = data
-
+          console.log("data:->", data)
        const match = await usersPassword.comparePassword(password, confirmPassword)  //-3
        if(!match)
        return ('Oops! password  does not match, Please input your password');

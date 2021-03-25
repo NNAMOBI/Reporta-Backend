@@ -29,6 +29,9 @@ module.exports = {
       usertype: {
         type: Sequelize.STRING
       },
+      name: {
+        type: Sequelize.STRING
+      },
       email: {
         type: Sequelize.STRING
       },
@@ -36,6 +39,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       status: {
+        type: Sequelize.STRING
+      },
+      file: {
         type: Sequelize.STRING
       },
       createdAt: {
