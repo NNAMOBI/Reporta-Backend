@@ -24,7 +24,6 @@ const OrganizationService = require('./organizationService');
 
 
 exports.createOrganization = async (req, res, next) => {
-
     /**
      * Create a organization from backend
      * @param req
@@ -35,7 +34,7 @@ exports.createOrganization = async (req, res, next) => {
     try {  //-2
     const data = req.body;
     // const id = req.query['id'];
-    // console.log(id)
+    console.log(data)
     const orgPayload = await OrganizationService.createOrganization(data) //-3
     return successResponse(res, orgPayload, 200);
 
@@ -45,9 +44,6 @@ exports.createOrganization = async (req, res, next) => {
     }
     
 }
-
-
-
 
 //-4
 exports.orgAuth = async(req, res, next) => {
@@ -75,7 +71,6 @@ exports.orgAuth = async(req, res, next) => {
 
 exports.login = async (req, res, next)=> {
     try {
-        console.log("data-:", data)
           const userHasRecord = await OrganizationService.userLogin(req.body) //call service handler to auth user
           if(!userHasRecord){
               return errorResponse(res, "credential does not exist", 401);
