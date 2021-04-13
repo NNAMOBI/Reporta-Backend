@@ -31,6 +31,28 @@ exports.createUser = async (req, res, next) => {
 
 }
 
+exports.fetchAllUsersByOrg =async (req, res, next)=> {
+     try {
+          console.log("req.query=>",req.query.token)
+         const token = req.query.token;
+         if(!token){
+          return errorResponse(res, "Please see your administrator", 401);  //error response
+        }
+        const fetchUsers = await UserService.fetchAllUsers(token) //call service handler to auth user
+        if(!fetchUsers){
+            return errorResponse(res, "credential does not exist", 401);
+        }else {
+           return successResponse(res, fetchUsers, 200) // success response
+        }
+
+     }catch(err){
+          console.log('err', err)
+          return errorResponse(res, "You cannot update at this time", 500);
+       }
+     
+
+}
+
 
 
 exports.createAdminUser = async(req, res, next)=> {

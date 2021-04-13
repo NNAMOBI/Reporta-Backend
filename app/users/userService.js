@@ -21,7 +21,23 @@ const findUser = async(token) => {
         return userRecord;
 }
 } 
+ const fetchAllUsers = async(token)=> {
+     try {
+        const decoded = await jwt.verify(token, process.env.Secret) // decode the token in the querystring
+        if(!decoded){
+            return ('Failed to authenticate token! Please see your system administrator')
+        }else {
+            const userRecord = await UserRepository.findAll({orgId: decoded.id},
+                                               ['id', 'name','email','phoneNo','status','createdAt','updatedAt']); // check if after decoding the user exist in the database match
+            console.log(userRecord)
+            return userRecord; 
+     }
 
+     }catch(err){
+      console.error(err.message)
+     }
+    }
+    
 
  const addUser = async (data) => {
     console.log("data->: ", data)
@@ -37,10 +53,11 @@ const findUser = async(token) => {
     if(!decoded){
         return ('Failed to authenticate token! Please see your system administrator')
     }else {
-        if(status === 'Supervisor') {
+        if(status == 'Supervisor') {
             usertype = 'Admin';
+        }else {
+            usertype = 'user'
         }
-        usertype = 'user'
         const userRecord = await UserRepository.create({
             name,
             email,
@@ -52,12 +69,14 @@ const findUser = async(token) => {
         if(!userRecord)
         return ('your credentials does not exist, Please see your system administrator' );
         return (userRecord)
+    }
 
     }
-}
+
 
 
 module.exports = {
     findUser,
-    addUser
+    addUser,
+    fetchAllUsers
 }
