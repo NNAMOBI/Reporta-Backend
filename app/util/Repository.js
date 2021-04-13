@@ -33,8 +33,8 @@ class Repository {
         return this.Model.findOrCreate({where: condition, defaults});
     }
 
-    findAll(condition) {
-        return this.Model.findAll({where: condition});
+    findAll(condition, attributes = []) {
+        return this.Model.findAll({where: condition, attributes});
     }
 
     find(id) {

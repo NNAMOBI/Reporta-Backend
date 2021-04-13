@@ -1,6 +1,6 @@
 
 /*
- * Create route for all users  (Admin and general users )to register /api-1
+ * Create route for admin to create and fetch users /api-1
    Create Oraganization route /api-2
  * @param req
  * @param res

@@ -30,6 +30,9 @@ module.exports = {
       time_start: {
         type: Sequelize.DATE
       },
+      time_end: {
+        type: Sequelize.DATE
+      },
       time_answered: {
         type: Sequelize.DATE
       },
@@ -63,7 +66,6 @@ module.exports = {
           model: "Organizations",
           Key: 'id',
           deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-
         },
         // field: 'org_id'
 
