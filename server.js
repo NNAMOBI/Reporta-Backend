@@ -26,6 +26,7 @@
 const { required } = require('@hapi/joi');
 const express = require('express');
 const app = express();
+const http = require('http')
 const {port} = require("./config");  // -3
 const createError = require('http-errors');  // -4
 require('express-async-errors');
@@ -34,12 +35,12 @@ const cors = require('cors');  //-7
 
 
 
+
+
 //middleware to parse data in the body of the request  -5
 app.use(cors());   //-7
 app.use(express.json());   //4
 app.use(express.urlencoded({extended: false}));
-
-
 
 
 
@@ -56,7 +57,28 @@ app.use(express.urlencoded({extended: false}));
 // Invoking All routes  -6
 require('./routes/api')(app);
 require('./startUps')  // -8
+require('./app')
 
+
+
+
+// server.listen(PORT, (error)=>{
+//     if(error){
+//         console.log('error in listening on port ' + PORT)
+//     }else {
+//         console.log(`PORT ${PORT} is live and running`)
+//         var host = server.address().address;
+//         var port = server.address().port;
+//         console.log('running at http://' + host + ':' + port)
+//     }
+// })
+// const server = http.listen(process.env.PORT || port, () => {
+//     var port = server.address().port;
+//     console.log('info', `Server now listening on port  ${port}`)
+
+        
+//         // console.log('running at http://' + host + ':' + port)
+// });
 
 
 // starting the node server  -1
