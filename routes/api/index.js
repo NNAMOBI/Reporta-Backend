@@ -25,7 +25,7 @@ module.exports = (app) => {
     app.use("/api/authUser/token", authenticateTokenRoute);// route for organization  to change password
     app.use("/api/org", loginRoute) //login route
     app.use("/api/org", orgAuthRoute)  //authenticate organization to view the dashboard
-    app.use('/api/users', callDetailsRecordsRoute)
+    app.use('/api/user', callDetailsRecordsRoute)
 }
 
 

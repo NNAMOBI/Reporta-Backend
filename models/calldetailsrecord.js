@@ -35,14 +35,15 @@ module.exports = (sequelize, DataTypes) => {
   };
   //-4
   callDetailsRecord.init({
-    time_start: DataTypes.DATE,
-    time_Answered: DataTypes.DATE,
-    time_End: DataTypes.DATE,
+    time_start: DataTypes.STRING,
+    time_Answered: DataTypes.STRING,
+    time_End: DataTypes.STRING,
     from_no: DataTypes.STRING,
+    ended_call: DataTypes.STRING,
     to_no: DataTypes.STRING,
-    duration: DataTypes.DATE,
+    duration: DataTypes.STRING,
     reason_terminated: DataTypes.TEXT,
-    date: DataTypes.DATE,
+    date: DataTypes.STRING,
     orgId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   }, {

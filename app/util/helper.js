@@ -80,8 +80,7 @@ let comparePassword =  (newPassword, confirmPassword) => {
 
 let postCallDetails = async (data, callId)=> {
     try {
-        console.log(data, callId)
-        let url = `http://localhost:5000/api/users/calldetails/${callId}`;
+        let url = `http://localhost:5000/api/user/calldetails/${callId}`;
         
         const {body} = await axios.post(url, data);
         return body;

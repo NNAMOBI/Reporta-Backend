@@ -44,8 +44,7 @@ exports.createRecords = async (data,callId) => {
             time_answered,
             from_no,
             to_no,
-            from_dn,
-            To_dn,
+            ended_call,
             Duration,
             Date
         } = data
@@ -61,6 +60,7 @@ exports.createRecords = async (data,callId) => {
            time_End: time_end,
            from_no,
            to_no,
+           ended_call,
            duration: Duration,
            reason_terminated: Reason_terminated,
            date:  Date,
@@ -69,15 +69,10 @@ exports.createRecords = async (data,callId) => {
         })
        if(!callDetailsRecord) 
        return (`Cant save your data`);
-       console.log(callDetailsRecord)
-        // create accessToken  with JsonWebToken for password update. 
-        const accessToken = await jwt.sign({
-            id:  organizationRecord.id,
-            email: organizationRecord.email,
-        }, process.env.Secret, {
-            expiresIn: '24h'
-        });
-        // send mail to organization user using a link to change Password but authenticate the user first
+       console.log("no that ended call:->:",callDetailsRecord.ended_call)
+       
+        
+        // send mail to organization user using a link to say agent ended the call but authenticate the user first
         await mailer({     //-7
             from: process.env.EMAIL_USERNAME,  //environment variables
             to: organizationRecord.email,
@@ -95,5 +90,19 @@ exports.createRecords = async (data,callId) => {
         return err
     }
 
+
+}
+
+exports.fetchAllCdr= async (token)  => {
+
+    const decoded = await jwt.verify(token, process.env.Secret) // decode the token in the querystring
+    if(!decoded){
+        return ('Failed to authenticate token! Please see your system administrator')
+    }else {
+        
+        const cdrRecord = await CallDetailsRepository.findOne({orgId: decoded.id})
+        return cdrRecord;
+
+    }
 
 }

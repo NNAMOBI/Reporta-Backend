@@ -36,6 +36,9 @@ module.exports = {
       time_answered: {
         type: Sequelize.STRING
       },
+      ended_call: {
+       type: Sequelize.STRING
+      },
       from_no: {
         type: Sequelize.STRING
       },

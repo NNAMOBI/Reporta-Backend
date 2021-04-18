@@ -6,9 +6,11 @@
      */
 
     const OrganizationRepository = require('../organization/organizationRepository'); //organization model
+    const CallDetailsRepository = require('../calldetails/calldetailsRepository');
     const jwt = require('../util/helper');  
     const UserRepository = require('../users/userRepository'); // user model
     const user = require('../../models/user');
+const calldetailsrecord = require('../../models/calldetailsrecord');
 
 
 const findUser = async(token) => {
@@ -18,7 +20,12 @@ const findUser = async(token) => {
         return ('Failed to authenticate token! Please see your system administrator')
     }else {
         const userRecord = await OrganizationRepository.find(decoded.id); // check if after decoding the user exist in the database match
-        return userRecord;
+        const cdrRecord = await CallDetailsRepository.findAll({orgId: userRecord.id},
+            ['id', 'time_start','time_end','time_answered','from_no','to_no','duration','reason_terminated','date'])
+        return {
+            userRecord,
+            cdrRecord
+        };
 }
 } 
  const fetchAllUsers = async(token)=> {
@@ -29,7 +36,6 @@ const findUser = async(token) => {
         }else {
             const userRecord = await UserRepository.findAll({orgId: decoded.id},
                                                ['id', 'name','email','phoneNo','status','createdAt','updatedAt']); // check if after decoding the user exist in the database match
-            console.log(userRecord)
             return userRecord; 
      }
 

@@ -32,6 +32,7 @@ const { route } = require('./users');
 
 //create organization  
 router.post('/calldetails/:callId', calldetailsController.createCallRecords)
+router.get('/cdr/fetch/token', calldetailsController.fetchAllCdrByOrg)  //get all cdr's for the organization
  
 
 

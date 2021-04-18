@@ -46,3 +46,26 @@ exports.createCallRecords = async (req, res, next) => {
     }
     
 }
+
+
+exports.fetchAllCdrByOrg =async (req, res, next)=> {
+    try {
+        const token = req.query.token;
+        if(!token){
+         return errorResponse(res, "Please see your administrator", 401);  //error response
+       }
+       const fetchCdr = await CallDetailsService.fetchAllCdr(token) //call service handler to auth user
+       if(!fetchCdr){
+           return errorResponse(res, "credential does not exist", 401);
+       }else {
+           console.log("fetch->:", fetchCdr)
+          return successResponse(res, fetchCdr, 200) // success response
+       }
+
+    }catch(err){
+         console.log('err', err)
+         return errorResponse(res, "You cannot update at this time", 500);
+      }
+    
+
+}
