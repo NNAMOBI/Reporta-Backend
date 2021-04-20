@@ -33,7 +33,6 @@ exports.createUser = async (req, res, next) => {
 
 exports.fetchAllUsersByOrg =async (req, res, next)=> {
      try {
-          console.log("req.query=>",req.query.token)
          const token = req.query.token;
          if(!token){
           return errorResponse(res, "Please see your administrator", 401);  //error response
@@ -79,7 +78,6 @@ exports.createAdminUser = async(req, res, next)=> {
 //api-2
 exports.findUser = async(req, res, next)=>{
      try {
- 
  const token = req.query.token
  if(!token){
      return errorResponse(res, "No token ", 401);  //error response

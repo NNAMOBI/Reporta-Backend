@@ -83,7 +83,6 @@ exports.login = async (req, res, next)=> {
              }   
  }
 
-
  exports.authorize = async(req, res, next)=> {
      console.log(req)
       const token = req.query.token

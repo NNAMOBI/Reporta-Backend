@@ -21,9 +21,10 @@
 
 
 //-1
-const randomString = require('randomstring');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const randomString = require('randomstring');  //library to generate random string
+const bcrypt = require('bcrypt');       // library to hash password
+const jwt = require('jsonwebtoken');     //jwt to create sessions
+const axios = require('axios')          // library to make post request to the application server
 
 
 
@@ -77,6 +78,22 @@ let comparePassword =  (newPassword, confirmPassword) => {
 
 
 
+let postCallDetails = async (data, callId)=> {
+    try {
+        let url = `http://localhost:5000/api/user/calldetails/${callId}`;
+        
+        const {body} = await axios.post(url, data);
+        return body;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+
+}
+
+
+
+
 
 
 
@@ -87,6 +104,7 @@ module.exports = {
     hashPassword,
     sign,
     verify,
-    comparePassword
+    comparePassword,
+    postCallDetails
     
 }

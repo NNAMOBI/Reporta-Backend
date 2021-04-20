@@ -28,13 +28,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       time_start: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       time_end: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       time_answered: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
+      },
+      ended_call: {
+       type: Sequelize.STRING
       },
       from_no: {
         type: Sequelize.STRING
@@ -43,7 +46,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       duration: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       reason_terminated: {
         type: Sequelize.TEXT

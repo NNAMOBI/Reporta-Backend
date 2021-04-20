@@ -30,8 +30,6 @@ const { route } = require('./users');
 // const auth = require('../../app/middleware/auth')
 
 
-
-
 //create organization  
 router.post('/register', organizationValidator.organizationInput,
                                      organizationController.createOrganization)
@@ -40,7 +38,6 @@ router.post('/', organizationController.orgAuth);   //authenticate user with tok
 router.post('/login',  organizationController.login);  //-2
 router.get('/auth/token', organizationController.authorize); // authorize user to view dashboard
 router.post("/user/register", organizationController.createUsers);//route to create users
-
 
 
 

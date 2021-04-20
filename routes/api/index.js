@@ -15,6 +15,8 @@ const organizationRoute = require('./organization')
 const authenticateTokenRoute = require('./organization') ; //route importation for change password
 const loginRoute = require('./organization') //route to login admin
 const orgAuthRoute = require('./organization');
+const callDetailsRecordsRoute = require('./calldetails')
+const contactUsRoute = require('./contactus')
 
 
 //export the route
@@ -24,6 +26,8 @@ module.exports = (app) => {
     app.use("/api/authUser/token", authenticateTokenRoute);// route for organization  to change password
     app.use("/api/org", loginRoute) //login route
     app.use("/api/org", orgAuthRoute)  //authenticate organization to view the dashboard
+    app.use('/api/user', callDetailsRecordsRoute) //route for call details record
+    app.use('/api/org' , contactUsRoute)   // route for contact us 
 }
 
 
