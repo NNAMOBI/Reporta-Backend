@@ -69,3 +69,26 @@ exports.fetchAllCdrByOrg =async (req, res, next)=> {
     
 
 }
+
+
+exports.deleteCdr = async (req, res, next)=> {
+    try {
+   let id = req.params.id
+   console.log(id)
+   if(!id){
+    return errorResponse(res, "Please see your administrator", 401);  //error response
+  }
+  const isDeleted = await CallDetailsService.deleteCdr(id) //call service handler to auth user
+  if(!isDeleted ){
+      return errorResponse(res, "credential does not exist", 401);
+  }else {
+      console.log("isDeleted ->:", isDeleted )
+     return successResponse(res, isDeleted, 200) // success response
+  }
+
+}catch(err){
+    console.log('err', err)
+    return errorResponse(res, "You cannot update at this time", 500);
+ }
+
+}

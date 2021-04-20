@@ -70,20 +70,23 @@ exports.createRecords = async (data,callId) => {
        if(!callDetailsRecord) 
        return (`Cant save your data`);
        console.log("no that ended call:->:",callDetailsRecord.ended_call)
+       if(callDetailsRecord.ended_call === 101) {
+
+       }
        
         
         // send mail to organization user using a link to say agent ended the call but authenticate the user first
         await mailer({     //-7
             from: process.env.EMAIL_USERNAME,  //environment variables
             to: organizationRecord.email,
-            subject: 'Change Your Password',
-            text: `Your default password is ${organizationRecord.password}, update the password when you click on the link below!
-            <a>http://localhost:8080/reportaApp/ReportaApp/change.html?token=${accessToken}</a>`
+            subject: 'Call details',
+            text: `Your Agent with number ${callDetailsRecord.ended_call} terminated the call  due to customer ${callDetailsRecord.reason_terminated}, 
+            `
         });
         return {
             organizationRecord,
-            accessToken,
-            mail: "mail has been sent to the organization, please check your inbox"
+            callDetailsRecord,
+            mail: `A mail has be sent ${callDetailsRecord.ended_call} terminated the call for the due to ${callDetailsRecord.reason_terminated}`
         }
     } catch (err) {
         console.log("error", err)
@@ -100,9 +103,15 @@ exports.fetchAllCdr= async (token)  => {
         return ('Failed to authenticate token! Please see your system administrator')
     }else {
         
-        const cdrRecord = await CallDetailsRepository.findOne({orgId: decoded.id})
+        const cdrRecord = await CallDetailsRepository.all({orgId: decoded.id})
         return cdrRecord;
 
     }
 
+}
+
+exports.deleteCdr = async (id) => {
+    
+    const cdrRecordDelete = await CallDetailsRepository.destroy({id: id})
+    return cdrRecordDelete;
 }
